@@ -11,10 +11,13 @@ set_time_limit(0);
 $id = substr($link, strrpos($link, '/') + 1);
 exec("mkdir downloads; touch downloads/$id;");
 
-$output2 = exec("mkdir $folder; cd $folder; wget $link;", $output, $return);
+$output2 = exec("mkdir temp; cd $temp; wget $link;", $output, $return);
 
 exec("rm downloads/$id;");
 
+if ($return == 0){
+	exec("mkdir $folder; mv temp/$id $folder/");
+}
 
 
 ?>

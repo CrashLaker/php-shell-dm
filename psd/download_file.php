@@ -10,15 +10,16 @@ set_time_limit(0);
 
 $id = substr($link, strrpos($link, '/') + 1);
 
+$filesize = getfilesize($link);
 
-
-exec("mkdir downloads; touch downloads/$id;");
-
-exec("ls temp/$id;", $output, $return);
+exec("ls downloads/$id;", $output, $return);
 
 if ($return == 0) goto end;
 
-$output2 = exec("mkdir temp; cd temp; wget $link 1>/dev/null;", $output, $return);
+exec("mkdir downloads; echo $filesize > downloads/$id;");
+
+
+$output2 = exec("mkdir temp; cd temp; wget -nv $link 2>&1 /dev/null;", $output, $return);
 
 exec("rm downloads/$id;");
 
@@ -28,5 +29,29 @@ if ($return == 0){
 
 
 end:
+
+
+
+
+
+
+function getfilesize($file){
+$ch = curl_init($file);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    if (preg_match('/Content-Length: (\d+)/', $data, $matches)) {
+
+        // Contains file size in bytes
+        $contentLength = (int)$matches[1];
+
+    }
+	return $contentLength;
+}
 
 ?>

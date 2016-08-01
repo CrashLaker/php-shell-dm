@@ -5,6 +5,7 @@
 	<script type="text/javascript">
 		function send(folder){
 			var link = $("#link").val();
+			if (link == "") return;
 			$.get("download.php?folder="+folder+"&link="+link);
 			$("#link").val("");
 		}

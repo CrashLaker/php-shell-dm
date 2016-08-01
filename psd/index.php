@@ -6,6 +6,7 @@
 		function send(folder){
 			var link = $("#link").val();
 			$.get("download.php?folder="+folder+"&link="+link);
+			$("#link").val("");
 		}
 		function add(){
 			var folder = $("#folder").val();

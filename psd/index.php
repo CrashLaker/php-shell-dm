@@ -10,10 +10,24 @@
 		}
 		function add(){
 			var folder = $("#folder").val();
-			alert(folder);
+			//alert(folder);
 			$.get("add_folder.php?folder="+folder);
 			$("#folder").val("");
 			$("#folders").append("<li onclick=\"send('"+folder+"');\">"+folder+"</li>");
+		}
+		function refreshtable(){
+			$.get("gettable.php", function (data){
+				//alert(data);
+				if (data == 0){
+					$("#list").html("<li>Nothing downloading...</li>");
+				}else{
+					data = data.split("\n");
+					$("#list").html("");
+					for (i = 0; i < data.length; i++){
+						$("#list").append("<li>"+data[i]+"</li>");
+					}
+				}
+			});
 		}
 	</script>
 </head>
@@ -33,7 +47,15 @@
 	</ul>
 	<input type="text" id="folder"/><button onclick="add();">add folder</button>
 	<hr>
-	
+	<ul id="list">
+
+	</ul>	
+
+
+
+	<script type="text/javascript">
+		setInterval(function(){ refreshtable(); }, 1000);
+	</script>	
 
 </body>
 </html>

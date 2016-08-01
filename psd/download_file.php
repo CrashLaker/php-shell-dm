@@ -8,10 +8,12 @@ set_time_limit(0);
 //$output2 = exec("cd $folder; wget $link", $output, $return);
 //$output2 = exec("ls -la", $output, $return);
 
+$id = substr($link, strrpos($link, '/') + 1);
+exec("mkdir downloads; touch downloads/$id;");
 
 $output2 = exec("mkdir $folder; cd $folder; wget $link;", $output, $return);
 
-
+exec("rm downloads/$id;");
 
 
 

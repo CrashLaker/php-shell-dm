@@ -10,16 +10,27 @@ set_time_limit(0);
 
 $id = substr($link, strrpos($link, '/') + 1);
 
+if ($auto == "true"){
+	
+	$inc = 0;
+	while(file_exists($folder."/".$inc.".mp4")) $inc++;
+	
+	$id = $inc.".mp4";
+
+}
+
 $filesize = getfilesize($link);
+
+exec("mkdir downloads;");
 
 exec("ls downloads/$id;", $output, $return);
 
 if ($return == 0) goto end;
 
-exec("mkdir downloads; echo $filesize > downloads/$id;");
+exec("echo $filesize > downloads/$id;");
 
 
-$output2 = exec("mkdir temp; cd temp; wget -nv $link 2>&1 /dev/null;", $output, $return);
+$output2 = exec("mkdir temp; cd temp; wget -nv \"$link\" -O $id 2>&1 /dev/null;", $output, $return);
 
 exec("rm downloads/$id;");
 

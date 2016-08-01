@@ -5,8 +5,9 @@
 	<script type="text/javascript">
 		function send(folder){
 			var link = $("#link").val();
+			var auto = $("#autoincrement").is(":checked");
 			if (link == "") return;
-			$.get("download.php?folder="+folder+"&link="+link);
+			$.get("download.php?folder="+folder+"&link="+link+"&auto="+auto);
 			$("#link").val("");
 		}
 		function add(){
@@ -33,7 +34,7 @@
 	</script>
 </head>
 <body>
-	<input type="text" id="link"/><br>
+	<input type="text" id="link"/><input type="checkbox" id="autoincrement"/><br>
 	<ul id="folders">
 		<?php
 			$folders = file("folders.txt");
